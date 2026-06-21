@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Phone, CheckCircle, Construction, ShieldCheck, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -44,16 +45,20 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center gap-4"
+              className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
             >
-              <Button size="lg" className="rounded-2xl px-10 py-8 text-lg bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-2xl shadow-blue-700/20 group w-full sm:w-auto">
-                Our Services
-                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-2xl px-10 py-8 text-lg w-full sm:w-auto font-bold border-zinc-200 hover:bg-zinc-50 gap-2">
-                <Phone className="w-5 h-5" />
-                Contact Us
-              </Button>
+              <Link to="/engineering" className="w-full sm:w-auto">
+                <Button size="lg" className="rounded-2xl px-10 py-8 text-lg bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-2xl shadow-blue-700/20 group w-full">
+                  Our Services
+                  <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+              <Link to="/contact" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="rounded-2xl px-10 py-8 text-lg w-full font-bold border-zinc-200 hover:bg-zinc-50 gap-2 text-zinc-700">
+                  <Phone className="w-5 h-5" />
+                  Contact Us
+                </Button>
+              </Link>
             </motion.div>
 
             <motion.div

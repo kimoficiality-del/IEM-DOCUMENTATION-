@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Building2, Printer, LineChart, FileEdit, GraduationCap, Microscope, ArrowRight } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { Link } from "react-router-dom";
 
 export default function Features() {
   const features = [
@@ -8,37 +9,43 @@ export default function Features() {
       icon: <Building2 className="w-8 h-8" />,
       title: "Infrastructure Engineering",
       description: "Structural design, civil works, and architectural planning with a focus on durability and international standards.",
-      color: "blue"
+      color: "blue",
+      href: "/engineering"
     },
     {
       icon: <Printer className="w-8 h-8" />,
       title: "Printing & Office Services",
       description: "High-volume printing, laminating, and document binding using professional-grade hardware.",
-      color: "indigo"
+      color: "indigo",
+      href: "/printing"
     },
     {
       icon: <LineChart className="w-8 h-8" />,
       title: "Data Analysis",
       description: "Expert statistical reporting using SPSS and Excel for research, business, and academic data.",
-      color: "emerald"
+      color: "emerald",
+      href: "/data-analysis"
     },
     {
       icon: <FileEdit className="w-8 h-8" />,
       title: "Project Editing",
       description: "Professional thesis formatting, grammar correction, and academic project preparation.",
-      color: "amber"
+      color: "amber",
+      href: "/project-editing"
     },
     {
       icon: <Microscope className="w-8 h-8" />,
       title: "Geotechnical Studies",
       description: "Comprehensive soil testing and site analysis to ensure foundational integrity for any structure.",
-      color: "rose"
+      color: "rose",
+      href: "/engineering"
     },
     {
       icon: <GraduationCap className="w-8 h-8" />,
       title: "Software Training",
       description: "Specialized training in engineering software for students and active professionals.",
-      color: "slate"
+      color: "slate",
+      href: "/about"
     }
   ];
 
@@ -59,32 +66,33 @@ export default function Features() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="group p-10 rounded-3xl border border-zinc-200 bg-white hover:border-blue-600 hover:shadow-2xl hover:shadow-blue-700/5 transition-all cursor-default"
-            >
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 group-hover:-rotate-3 ${
-                feature.color === 'blue' ? 'bg-blue-50 text-blue-600' :
-                feature.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
-                feature.color === 'emerald' ? 'bg-emerald-50 text-emerald-600' :
-                feature.color === 'amber' ? 'bg-amber-50 text-amber-600' :
-                feature.color === 'rose' ? 'bg-rose-50 text-rose-600' :
-                'bg-slate-100 text-slate-600'
-              }`}>
-                {feature.icon}
-              </div>
-              <h3 className="text-2xl font-bold text-zinc-900 mb-4">{feature.title}</h3>
-              <p className="text-zinc-600 leading-relaxed font-medium">
-                {feature.description}
-              </p>
-              <div className="mt-8 flex items-center gap-2 text-sm font-black text-blue-700 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                 Details <ArrowRight className="w-4 h-4" />
-              </div>
-            </motion.div>
+            <Link key={feature.title} to={feature.href} className="block group">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="h-full p-10 rounded-3xl border border-zinc-200 bg-white group-hover:border-blue-650 hover:border-blue-600 hover:shadow-2xl hover:shadow-blue-700/5 transition-all cursor-pointer"
+              >
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 group-hover:-rotate-3 ${
+                  feature.color === 'blue' ? 'bg-blue-50 text-blue-600' :
+                  feature.color === 'indigo' ? 'bg-indigo-50 text-indigo-600' :
+                  feature.color === 'emerald' ? 'bg-emerald-50 text-emerald-600' :
+                  feature.color === 'amber' ? 'bg-amber-50 text-amber-600' :
+                  feature.color === 'rose' ? 'bg-rose-50 text-rose-600' :
+                  'bg-slate-100 text-slate-600'
+                }`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-zinc-900 mb-4">{feature.title}</h3>
+                <p className="text-zinc-600 leading-relaxed font-medium">
+                  {feature.description}
+                </p>
+                <div className="mt-8 flex items-center gap-2 text-sm font-black text-blue-700 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                   Details <ArrowRight className="w-4 h-4" />
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

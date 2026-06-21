@@ -1,12 +1,57 @@
-import { motion } from "motion/react";
-import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { Phone, Mail, MapPin, Clock, Send, MessageCircle, CheckCircle2, RefreshCw } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Badge } from "../components/ui/badge";
+import { addTicket } from "../lib/portalState";
 import * as React from "react";
 
 export default function ContactPage() {
+  const [formData, setFormData] = React.useState({
+    fullName: "",
+    email: "",
+    category: "Infrastructure Engineering",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submittedTicket, setSubmittedTicket] = React.useState<any | null>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.email || !formData.message) {
+      alert("Please fill in all requested fields to submit under IEM standard.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate standard server latency
+    setTimeout(() => {
+      const ticket = addTicket({
+        type: "contact",
+        title: `Contact Inquiry: ${formData.category}`,
+        status: "pending",
+        details: {
+          clientName: formData.fullName,
+          clientEmail: formData.email,
+          targetDepartment: formData.category,
+          briefSummary: formData.message.slice(0, 80) + (formData.message.length > 80 ? "..." : ""),
+        },
+      });
+      setSubmittedTicket(ticket);
+      setIsSubmitting(false);
+      
+      // Clear form
+      setFormData({
+        fullName: "",
+        email: "",
+        category: "Infrastructure Engineering",
+        message: "",
+      });
+    }, 1500);
+  };
+
   return (
     <div className="pt-32 pb-24 bg-zinc-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,45 +86,154 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <div className="bg-white p-10 md:p-16 rounded-[3rem] border border-zinc-200 shadow-xl shadow-blue-900/5">
-              <form className="space-y-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Full Name</label>
-                    <Input placeholder="John Doe" className="rounded-xl border-zinc-100 bg-zinc-50/50 py-6" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Email Address</label>
-                    <Input type="email" placeholder="john@example.com" className="rounded-xl border-zinc-100 bg-zinc-50/50 py-6" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Service Category</label>
-                  <select className="w-full rounded-xl border border-zinc-100 bg-zinc-50/50 py-4 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Infrastructure Engineering</option>
-                    <option>Structural Analysis</option>
-                    <option>Architecture & Design</option>
-                    <option>Printing & Digital Services</option>
-                    <option>Data Analysis</option>
-                    <option>Project Editing</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Message</label>
-                  <Textarea placeholder="Tell us about your project..." className="rounded-xl border-zinc-100 bg-zinc-50/50 min-h-[150px]" />
-                </div>
-                <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white rounded-2xl py-8 text-xl font-black shadow-xl shadow-blue-700/20 group">
-                  Send Message
-                  <Send className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </Button>
-              </form>
+            <div className="bg-white p-10 md:p-16 rounded-[3rem] border border-zinc-200 shadow-xl shadow-blue-900/5 min-h-[500px] flex flex-col justify-center">
+              <AnimatePresence mode="wait">
+                {submittedTicket ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="text-center space-y-6 py-8"
+                  >
+                    <div className="w-20 h-20 bg-emerald-50 rounded-[2rem] border border-emerald-100 flex items-center justify-center text-emerald-600 mx-auto shadow-inner">
+                      <CheckCircle2 className="w-10 h-10" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-100/50 px-3 py-1 rounded-full">
+                        Secure Transmission Successful
+                      </span>
+                      <h2 className="text-3xl font-black text-zinc-900 mt-3 md:text-4xl">Request Registered!</h2>
+                      <p className="text-zinc-500 font-medium max-w-md mx-auto mt-2">
+                        Your consultation ticket has been securely broadcasted to the IEM Masters department.
+                      </p>
+                    </div>
+
+                    <div className="bg-zinc-50 border border-zinc-100 p-6 rounded-3xl max-w-md mx-auto text-left divide-y divide-zinc-200/50 text-sm">
+                      <div className="py-2.5 flex justify-between">
+                        <span className="text-zinc-400 font-bold">Ticket ID:</span>
+                        <span className="font-mono font-black text-blue-700">{submittedTicket.id}</span>
+                      </div>
+                      <div className="py-2.5 flex justify-between">
+                        <span className="text-zinc-400 font-bold">Category:</span>
+                        <span className="font-bold text-zinc-800">{submittedTicket.details.targetDepartment}</span>
+                      </div>
+                      <div className="py-2.5 flex justify-between">
+                        <span className="text-zinc-400 font-bold">Registered email:</span>
+                        <span className="font-bold text-zinc-800">{submittedTicket.details.clientEmail}</span>
+                      </div>
+                      <div className="py-2.5 flex justify-between">
+                        <span className="text-zinc-400 font-bold">Status:</span>
+                        <span className="inline-flex items-center gap-1 bg-zinc-100 text-zinc-600 font-black px-2.5 py-0.5 rounded-md text-[11px] border border-zinc-200">
+                          <Clock className="w-3 h-3 animate-pulse" /> Pending Evaluation
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4 max-w-md mx-auto">
+                      <Button 
+                        onClick={() => setSubmittedTicket(null)}
+                        variant="outline"
+                        className="rounded-xl border-zinc-200 font-bold h-12 w-full"
+                      >
+                        Send Another message
+                      </Button>
+                      <a 
+                        href={`https://wa.me/237691005841?text=${encodeURIComponent(`Hello IEM Ltd., I just submitted diagnostic ticket ${submittedTicket.id} on your website for ${submittedTicket.details.targetDepartment}. Can you please review?`)}`}
+                        target="_blank"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-12 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 w-full transition-all"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        Chat on WhatsApp
+                      </a>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.form 
+                    key="form"
+                    onSubmit={handleSubmit} 
+                    className="space-y-8"
+                  >
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Full Name</label>
+                        <Input 
+                          placeholder="John Doe" 
+                          required
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                          className="rounded-xl border-zinc-100 bg-zinc-50/50 py-6" 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Email Address</label>
+                        <Input 
+                          type="email" 
+                          required
+                          placeholder="john@example.com" 
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="rounded-xl border-zinc-100 bg-zinc-50/50 py-6" 
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Service Category</label>
+                      <select 
+                        value={formData.category}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        className="w-full rounded-xl border border-zinc-100 bg-zinc-50/50 py-4 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option>Infrastructure Engineering</option>
+                        <option>Structural Analysis</option>
+                        <option>Architecture & Design</option>
+                        <option>Printing & Digital Services</option>
+                        <option>Data Analysis</option>
+                        <option>Project Editing</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-zinc-400">Message</label>
+                      <Textarea 
+                        placeholder="Tell us about your project..." 
+                        required
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        className="rounded-xl border-zinc-100 bg-zinc-50/50 min-h-[150px]" 
+                      />
+                    </div>
+                    <Button 
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-zinc-300 text-white rounded-2xl py-8 text-xl font-black shadow-xl shadow-blue-700/20 group"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <RefreshCw className="mr-2 w-5 h-5 animate-spin" />
+                          Transmitting Securely...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                        </>
+                      )}
+                    </Button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
               
               <div className="mt-12 pt-12 border-t border-zinc-50 text-center">
                  <p className="text-zinc-500 font-medium mb-6">Preferred quick response?</p>
-                 <Button variant="outline" className="rounded-2xl border-emerald-100 bg-emerald-50 text-emerald-700 font-bold px-10 py-6 hover:bg-emerald-100 gap-2">
+                 <a 
+                    href="https://wa.me/237691005841?text=Hello%20IEM%20Ltd!%20I'd%20like%20to%20consult%20an%20infrastructure%20expert%20regarding%20my%20building%20project."
+                    target="_blank"
+                    rel="no-referrer"
+                    className="inline-flex items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 font-bold px-10 py-4 hover:bg-emerald-100 gap-2 transition-colors"
+                 >
                     <MessageCircle className="w-5 h-5" />
                     WhatsApp Us Now
-                 </Button>
+                 </a>
               </div>
             </div>
           </div>

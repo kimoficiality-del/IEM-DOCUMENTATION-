@@ -1,10 +1,53 @@
 import { motion } from "motion/react";
-import { ShieldCheck, Target, Award } from "lucide-react";
+import { ShieldCheck, Target, Award, RefreshCw, CheckCircle2 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import * as React from "react";
 
 export default function AboutPage() {
+  const [isDownloading, setIsDownloading] = React.useState(false);
+  const [downloadSuccess, setDownloadSuccess] = React.useState(false);
+
+  const handleDownload = () => {
+    setIsDownloading(true);
+    setDownloadSuccess(false);
+    setTimeout(() => {
+      setIsDownloading(false);
+      setDownloadSuccess(true);
+      
+      // Physically build a downloadable profile text document
+      const docLines = [
+        "==================================================================",
+        "          INFRASTRUCTURE ENGINEERING MASTERS LTD (IEM LTD)        ",
+        "                'IEM is for durability and standard'              ",
+        "==================================================================",
+        "Location: Mile 6, Nkwen, Bamenda, North West Region, Cameroon",
+        "Contact: +237 691 005 841 | IEM@gmail.com",
+        "Established: Bamenda, Cameroon",
+        "",
+        "SERVICES PROFILE:",
+        "1. Geotechnical & Geomechanics Engineering (Soil Testing & Foundations)",
+        "2. Infrastructure planning, structural modeling & 3D civil plans",
+        "3. High-standard commercial digital and blueprint printing",
+        "4. Academic statistical analysis using SPSS and Excel",
+        "5. Thesis formatting and professional grammatical alignment",
+        "",
+        "MISSION STATEMENT:",
+        "To provide robust, safe, and cost-efficient engineering and digital",
+        "development solutions compliant with international Eurocodes and local standards.",
+        "=================================================================="
+      ].join("\n");
+
+      const file = new Blob([docLines], { type: "text/plain" });
+      const element = document.createElement("a");
+      element.href = URL.createObjectURL(file);
+      element.download = "IEM_Ltd_Company_Profile.txt";
+      document.body.appendChild(element); // Required for this to work on Firefox
+      element.click();
+      document.body.removeChild(element);
+    }, 1800);
+  };
+
   return (
     <div className="pt-32 pb-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,8 +67,25 @@ export default function AboutPage() {
             <p className="text-zinc-500 leading-relaxed mb-10">
               We started as a small consultancy in Bamenda and have grown into a multidisciplinary firm serving private developers, government agencies, and international partners across Cameroon. Our team combines technical calculation with creative design to solve the most complex infrastructure challenges.
             </p>
-            <Button size="lg" className="rounded-2xl px-10 py-7 bg-blue-700 hover:bg-blue-800 font-bold shadow-xl shadow-blue-700/20">
-              Download Company Profile
+            <Button 
+              onClick={handleDownload}
+              disabled={isDownloading}
+              size="lg" 
+              className="rounded-2xl px-10 py-7 bg-blue-700 hover:bg-blue-800 font-bold shadow-xl shadow-blue-700/20 cursor-pointer disabled:bg-zinc-400 gap-2"
+            >
+              {isDownloading ? (
+                <>
+                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  Generating Profile...
+                </>
+              ) : downloadSuccess ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                  Downloaded Successfully!
+                </>
+              ) : (
+                "Download Company Profile"
+              )}
             </Button>
           </motion.div>
           

@@ -4,6 +4,7 @@ import { Button } from "../components/ui/button";
 import { ArrowRight, MessageCircle, Star, ShieldCheck, Clock, Users2 } from "lucide-react";
 import { motion } from "motion/react";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   return (
@@ -74,12 +75,18 @@ export default function LandingPage() {
                 Join the hundreds of companies and thousands of individuals who trust IEM for durability, precision, and efficiency.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 rounded-2xl px-12 py-8 text-xl font-black shadow-2xl">
+                <Button 
+                    onClick={() => window.dispatchEvent(new CustomEvent("toggle-iem-portal"))}
+                    size="lg" 
+                    className="bg-white text-blue-900 hover:bg-blue-50 rounded-2xl px-12 py-8 text-xl font-black shadow-2xl cursor-pointer"
+                >
                     Get a Quote Now
                 </Button>
-                <Button size="lg" variant="outline" className="border-blue-400 text-white hover:bg-white/10 rounded-2xl px-12 py-8 text-xl font-bold">
-                    Talk to an Expert
-                </Button>
+                <Link to="/contact" className="inline-block">
+                    <Button size="lg" variant="outline" className="border-blue-400 text-white hover:bg-white/10 rounded-2xl px-12 py-8 text-xl font-bold w-full">
+                        Talk to an Expert
+                    </Button>
+                </Link>
             </div>
         </div>
       </section>
