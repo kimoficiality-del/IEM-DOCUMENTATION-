@@ -233,7 +233,7 @@ export default function ProjectEditingPage() {
                           Calculate Another Paper
                         </Button>
                         <a 
-                          href={`https://wa.me/237691005841?text=${encodeURIComponent(`Hello IEM, I would like to lock in editorial review for my project (${submittedRequest.id}). Word count is ${submittedRequest.details.manuscriptWordCount} under ${submittedRequest.details.styleGuide}. Estimate cost is ${submittedRequest.costEstimate}.`)}`}
+                          href={`https://wa.me/237676222804?text=${encodeURIComponent(`Hello IEM, I would like to lock in editorial review for my project (${submittedRequest.id}). Word count is ${submittedRequest.details.manuscriptWordCount} under ${submittedRequest.details.styleGuide}. Estimate cost is ${submittedRequest.costEstimate}.`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-xl flex items-center justify-center px-8 shadow-lg shadow-amber-650/15 gap-2"

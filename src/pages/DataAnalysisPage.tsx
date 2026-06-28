@@ -270,7 +270,7 @@ export default function DataAnalysisPage() {
                       Reset Workspace Tools
                     </Button>
                     <a 
-                      href={`https://wa.me/237691005841?text=${encodeURIComponent(
+                      href={`https://wa.me/237676222804?text=${encodeURIComponent(
                         `Hello Dr. Emmanuel, I would like to move forward on compilation of my SPSS/Excel dataset report (${submittedAnalytic.id}) for model "${submittedAnalytic.title}". Outcome values: ${submittedAnalytic.details.regressionCoefModel}.`
                       )}`}
                       target="_blank"

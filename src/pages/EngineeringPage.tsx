@@ -168,7 +168,7 @@ export default function EngineeringPage() {
                       Configure New Footing Sizing
                     </Button>
                     <a 
-                      href={`https://wa.me/237691005841?text=${encodeURIComponent(
+                      href={`https://wa.me/237676222804?text=${encodeURIComponent(
                         `Hello IEM design room, I have queued structural geotech footing calculations for reference ${submittedSafetyModel.id} under soil parameter "${submittedSafetyModel.details.geotechnicalClass}". Standard Safety index reported: ${submittedSafetyModel.details.determinedSafetyMargin}.`
                       )}`}
                       target="_blank"

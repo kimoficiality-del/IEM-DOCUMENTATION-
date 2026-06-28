@@ -221,7 +221,7 @@ export default function PortalDrawer({ isOpen, onClose }: PortalDrawerProps) {
                             Approved under IEM standard guidelines.
                           </span>
                           <a
-                            href={`https://wa.me/237691005841?text=${encodeURIComponent(
+                            href={`https://wa.me/237676222804?text=${encodeURIComponent(
                               `Hello IEM Ltd., I would like to move forward with my query ${t.id} for "${t.title}". Estimated cost: ${t.costEstimate || "Pending"}.`
                             )}`}
                             target="_blank"

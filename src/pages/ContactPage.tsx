@@ -139,7 +139,7 @@ export default function ContactPage() {
                         Send Another message
                       </Button>
                       <a 
-                        href={`https://wa.me/237691005841?text=${encodeURIComponent(`Hello IEM Ltd., I just submitted diagnostic ticket ${submittedTicket.id} on your website for ${submittedTicket.details.targetDepartment}. Can you please review?`)}`}
+                        href={`https://wa.me/237676222804?text=${encodeURIComponent(`Hello IEM Ltd., I just submitted diagnostic ticket ${submittedTicket.id} on your website for ${submittedTicket.details.targetDepartment}. Can you please review?`)}`}
                         target="_blank"
                         className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-12 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 w-full transition-all"
                       >
@@ -226,7 +226,7 @@ export default function ContactPage() {
               <div className="mt-12 pt-12 border-t border-zinc-50 text-center">
                  <p className="text-zinc-500 font-medium mb-6">Preferred quick response?</p>
                  <a 
-                    href="https://wa.me/237691005841?text=Hello%20IEM%20Ltd!%20I'd%20like%20to%20consult%20an%20infrastructure%20expert%20regarding%20my%20building%20project."
+                    href="https://wa.me/237676222804?text=Hello%20IEM%20Ltd!%20I'd%20like%20to%20consult%20an%20infrastructure%20expert%20regarding%20my%20building%20project."
                     target="_blank"
                     rel="no-referrer"
                     className="inline-flex items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 font-bold px-10 py-4 hover:bg-emerald-100 gap-2 transition-colors"
